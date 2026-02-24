@@ -1,19 +1,24 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+// import init, { mount_media_player } from 'oxidized-media-player';
 
-export default function OxidizedMediaPlayer() {
+export default function OxidizedMediaPlayerBundlerEdition() {
+
     const playerContainerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         let cancelled = false;
 
         async function loadPlayer() {
-            const wasm = await import("@/wasm/oxidized-media-player/oxidized_media_player");
+            const wasm = await import("oxidized_media_player");
 
             if (cancelled || !playerContainerRef.current) return;
 
-            await wasm.default(); // init()
+            // await init();
+            // mount_media_player(playerContainerRef.current);
+
+            await wasm.default();
             wasm.mount_media_player(playerContainerRef.current);
         }
 
@@ -24,5 +29,5 @@ export default function OxidizedMediaPlayer() {
         };
     }, []);
 
-    return <div className="text-6xl" ref={playerContainerRef} />;
+    return <div className="text-6xl" ref={playerContainerRef}/>;
 }
